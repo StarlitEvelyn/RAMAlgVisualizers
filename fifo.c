@@ -43,7 +43,6 @@ int main()
         requests[columnCount] = request;
         addColumn(table);
         system("cls");
-        printf("REQS: %d\n", request);
 
         if (!findInRam(table, request))
             changeSpot(table, request);
