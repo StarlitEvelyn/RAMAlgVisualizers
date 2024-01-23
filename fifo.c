@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <windows.h>
 
-#define AMOUNT 5 // Amount of numbers you want <0; AMOUNT>
-#define RAMS 3   // How many ram slots you
-#define COLUMNS 20
-#define SPEED 1 // prints per second
+#define AMOUNT 10  // Amount of numbers you want <0; AMOUNT)
+                   //! >10 breaks UI, do not use with this version!
+#define RAMS 3     // How many pages
+#define COLUMNS 30 // Maximum amount of columns
+#define SPEED 1    // prints per second
+#define STEP 5     // 0 = continous, >0 = how many new requests to make before pause
 
 void printTable(int[RAMS][COLUMNS], int);
 void removeFirstColumn(int[RAMS][COLUMNS]);
@@ -19,7 +21,7 @@ void printRequests();
 
 int columnCount = 0;
 int rowCount = 0;
-int request = 1, lastRequest;
+int request = 1, lastRequest, sameRequests = 0, stepCount = 0;
 int requests[COLUMNS] = {};
 int changes[RAMS][COLUMNS] = {};
 int main()
@@ -30,8 +32,15 @@ int main()
     while (1)
     {
         request = rand() % AMOUNT;
+        request = rand() % AMOUNT;
         if (lastRequest == request)
+            sameRequests++;
+        if (sameRequests > 2 && lastRequest == request)
+        {
             continue;
+            sameRequests = 0;
+        }
+        lastRequest = request;
         if (columnCount == COLUMNS)
         {
             removeFirstColumn(table);
@@ -50,6 +59,11 @@ int main()
         printRequests();
         printTable(table, request);
         printf("Yellow - Changes\nPurple - Highlight for REQ in RAM\n");
+        if (STEP != 0 && stepCount >= STEP)
+        {
+            system("pause");
+            stepCount = 0;
+        }
         timeout(SPEED);
     }
 }

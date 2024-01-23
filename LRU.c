@@ -71,12 +71,12 @@ int main()
         printf("Avg. changes: %.2f\n", changesCount() / COLUMNS);
         printf("Yellow - Changes\nPurple - Highlight for REQ in RAM\n");
         timeout(SPEED);
-        stepCount++;
         if (STEP != 0 && stepCount >= STEP)
         {
             system("pause");
             stepCount = 0;
         }
+        stepCount++;
     }
 }
 
