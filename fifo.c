@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include <windows.h>
 
 #define AMOUNT 10  // Amount of numbers you want <0; AMOUNT)
                    //! >10 breaks UI, do not use with this version!
