@@ -15,8 +15,17 @@ void addColumn(int[RAMS][COLUMNS]);
 void changeSpot(int[RAMS][COLUMNS], int);
 int findInRam(int[RAMS][COLUMNS], int);
 int timeout(int seconds);
-void moveRequestsLeft();
-void printRequests();
+void moveRequestsLeft(void);
+void printRequests(void);
+
+static inline void screen_clean(void) {
+#if defined(_WIN32) || defined(_WIN64)
+  system("cls");
+#else
+  printf("\e[1;1H\e[2J");
+  //system("clear");
+#endif
+}
 
 int columnCount = 0;
 int rowCount = 0;
@@ -50,7 +59,7 @@ int main()
         }
         requests[columnCount] = request;
         addColumn(table);
-        system("cls");
+        screen_clean();
 
         if (!findInRam(table, request))
             changeSpot(table, request);
@@ -142,8 +151,7 @@ int timeout(int seconds)
 {
     clock_t endwait;
     endwait = clock() + seconds * CLOCKS_PER_SEC;
-    while (clock() < endwait)
-        ;
+    while (clock() < endwait) {}
 
     return 1;
 }

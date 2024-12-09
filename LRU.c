@@ -20,11 +20,22 @@ float changesCount();
 void moveRequestsLeft();
 void printRequests();
 
+static inline void screen_clean(void) {
+#if defined(_WIN32) || defined(_WIN64)
+  system("cls");
+#else
+  printf("\e[1;1H\e[2J");
+  //system("clear");
+#endif
+}
+
 int columnCount = 0;
 int rowCount = 0;
-int request = 1, lastRequest = 0;
+int request = 1;
+int lastRequest = 0;
 int requests[COLUMNS] = {};
 int changes[RAMS][COLUMNS] = {};
+
 int main()
 {
     srand(time(NULL));
@@ -53,7 +64,7 @@ int main()
         }
         requests[columnCount] = request;
         addColumn(table);
-        system("cls");
+        screen_clean();
 
         latest = getLatest(table);
 
@@ -72,7 +83,7 @@ int main()
         timeout(SPEED);
         if (STEP != 0 && stepCount >= STEP)
         {
-            system("pause");
+            screen_clean();
             stepCount = 0;
         }
         stepCount++;
